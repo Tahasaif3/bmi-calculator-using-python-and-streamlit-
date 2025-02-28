@@ -1,28 +1,64 @@
 import streamlit as st
 
-#Title of the web app
-st.title("BMI Calculator");
+st.markdown("""
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+        .stButton>button {
+            background-color: #ff4b4b;
+            color: white;
+            font-size: 18px;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+        }
+        .stButton>button:hover {
+            background-color: #ff1e1e;
+            transition: 0.3s;
+        }
+        .bmi-box {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .underweight { background-color: #FFD700; }
+        .normal { background-color: #4CAF50; color: white; }
+        .overweight { background-color: #FF9800; }
+        .obese { background-color: #FF4B4B; color: white; }
+    </style>
+""", unsafe_allow_html=True)
 
-#Input Fields for Weight and Height
-height = st.number_input("Enter your height in meters (e.g.,1.85):", min_value=0.0, format="%.2f")
-weight = st.number_input("Enter your weight in kilograms (e.g.,80):", min_value=0.0, format="%.2f")
+st.title("✨ Animated BMI Calculator ✨")
+st.write("Enter your details below to calculate your Body Mass Index (BMI).")
 
-# Calculator BMI
-if st.button("Calculate BMI"):
-  if height == 0 or weight == 0:
-    st.warning("Please enter valid height and weight values.")
-  else: bmi = weight / (height ** 2)
-  st.write(f"Your BMI is: {bmi:.2f}")
+height = st.number_input("📏 Enter your height in meters (e.g., 1.75):", min_value=0.1, format="%.2f")
+weight = st.number_input("⚖️ Enter your weight in kilograms (e.g., 70):", min_value=0.1, format="%.2f")
 
-  # BMI Category
-  if bmi < 18.5:
-    st.write("You are underweight.")
-  elif 18.5 <= bmi < 24.9:
-    st.write("Your weight is normal.")
-  elif 25 <= bmi < 29.9:
-    st.write("You are overweight.")
-  else:
-    st.write("You are obese or severely obese.");
-else :
-    st.error("Please enter valid height and weight values.")
-      
+if st.button("🚀 Calculate BMI"):
+    if height > 0 and weight > 0:
+        bmi = weight / (height ** 2)
+        st.success(f"✅ Your BMI is: {bmi:.2f}")
+
+        st.progress(min(bmi / 40, 1.0))
+
+        if bmi < 18.5:
+            category = "Underweight 😟"
+            color_class = "underweight"
+        elif 18.5 <= bmi < 24.9:
+            category = "Normal Weight 🎉"
+            color_class = "normal"
+            st.balloons()
+        elif 25 <= bmi < 29.9:
+            category = "Overweight 🤔"
+            color_class = "overweight"
+        else:
+            category = "Obese ⚠️"
+            color_class = "obese"
+
+        st.markdown(f'<div class="bmi-box {color_class}">{category}</div>', unsafe_allow_html=True)
+    else:
+        st.warning("⚠️ Please enter valid values for height and weight.")
