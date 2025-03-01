@@ -32,7 +32,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("✨ Animated BMI Calculator ✨")
+st.title("✨ BMI Calculator ✨")
 st.write("Enter your details below to calculate your Body Mass Index (BMI).")
 
 height = st.number_input("📏 Enter your height in meters (e.g., 1.75):", min_value=0.1, format="%.2f")
